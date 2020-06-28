@@ -1,26 +1,25 @@
 import React, {Component} from 'react';
 
 import './item-list.css';
-import SwapiService from "../../services/svapi-services";
+
 import Spinner from "../spinner";
 
 export default class ItemList extends Component {
 
-    swapiService = new SwapiService();
-
     state = {
-        peopleList: null
+       itemList: null
     };
 
     componentDidMount() {
-        this.swapiService
-            .getAllPeople()
-            .then((peopleList) => {
+        const {getData} = this.props;
+
+            getData().then((itemList) => {
                 this.setState({
-                    peopleList
+                    itemList
                 });
             });
     };
+
 
     renderItem(arr) {
         return arr.map(({id, name}) => {
@@ -35,12 +34,12 @@ export default class ItemList extends Component {
     };
 
     render() {
-        const {peopleList} = this.state;
+        const {itemList} = this.state;
 
-        if (!peopleList) {
+        if (!itemList) {
             return <Spinner/>
         }
-        const item = this.renderItem(peopleList)
+        const item = this.renderItem(itemList)
 
         return (
             <ul className="item-list list-group">
