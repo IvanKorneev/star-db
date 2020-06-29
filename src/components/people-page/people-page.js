@@ -5,7 +5,7 @@ import ItemList from "../item-list";
 import PersonDetails from "../person-details";
 import SwapiService from "../../services/svapi-services";
 
-export  default class PeoplePage extends Component{
+export default class PeoplePage extends Component {
     swapiService = new SwapiService();
     state = {
         selectedPerson: 3,
@@ -20,23 +20,24 @@ export  default class PeoplePage extends Component{
     }
 
     onPersonSelected = (selectedPerson) => {
-        this.setState({ selectedPerson });
+        this.setState({selectedPerson});
     };
 
     render() {
 
         if (this.state.hasError) {
-            return <ErrorIndicator />;
+            return <ErrorIndicator/>;
         }
 
         return (
             <div className="row mb2">
                 <div className="col-md-6">
                     <ItemList onItemSelected={this.onPersonSelected}
-                    getData={this.swapiService.getAllPeople}/>
+                              getData={this.swapiService.getAllPeople}
+                              renderItem={({name, gender, birthYear}) => `${name}(${gender},${birthYear})`}/>
                 </div>
                 <div className="col-md-6">
-                    <PersonDetails personId={this.state.selectedPerson} />
+                    <PersonDetails personId={this.state.selectedPerson}/>
                 </div>
             </div>
         );
